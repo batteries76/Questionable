@@ -25,9 +25,18 @@ class QuestionsController < ApplicationController
   end
 
   def recent
-    event_id = Event.find_by_id(params[:id]).id
-    questions = Questions.find_by(event_id: event_id)
-    @recent_sort_qs = questions.sort { |a,b| b.created_at <=> a.created_at }
+#    request response etc
+#  binding.pry
+    query_string = request.env["QUERY_STRING"]
+    query_arr = query_string.split('=')
+    value = query_arr.last
+#    binding.pry
+    questions = Question.where(event: value)
+    recent_sort_qs = questions.sort { |a,b| b.created_at <=> a.created_at }
+#    binding.pry
+    render json: recent_sort_qs, status: 201
+#    render: recent_sort_qs.to_json
+#    binding.pry
   end
 
   def trending

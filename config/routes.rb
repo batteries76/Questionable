@@ -28,4 +28,9 @@ Rails.application.routes.draw do
 
   post '/event/:id' => 'questions#create'
 
+  get '/questions/recent' => 'questions#recent'
+  get '/questions/trending' => 'questions#trending'
+  get '/questions/most' => 'questions#most'
+  get '/questions/random' => 'questions#random'
+
 end

@@ -1,13 +1,16 @@
 <%# EVENT QUESTIONS PAGE %>
-
+<div id="event-wrapper" data-event-id="<%= @event.id %>"></div>
 <h2 style="margin-top:1.5rem"><%= "#{@event.title} - #{@event.speaker} - 10:30" %> </h2>
 <div style="margin-top:1.5rem"><%= @event.description %></div>
 
-<button class="btn-sml" id="sort_by_recent">Randomize</button>
-<button class="btn-sml" id="sort_by_trending">Recently Asked</button>
+<button class="btn-sml" id="sort_by_random">Randomize</button>
+<button class="btn-sml" id="sort_by_recent">Recently Asked</button>
 <button class="btn-sml" id="sort_by_trending">Trending</button>
 <button class="btn-sml" id="sort_by_most_liked">Most Liked</button>
 <BR /><BR />
+
+<div class="question-space">
+</div>
 
 <% if @questions %>
   <% @questions.each do |question| %>
@@ -43,18 +46,66 @@
   </div>
 
 </div>
+
 <script>
+
+var eventId = $('#event-wrapper').data("event-id");
+console.log(eventId);
+console.log('questions logic');
+
+$('#sort_by_recent').on('click', function(event) {
+
+//  event.preventDefault(); // js: i got this, form submission step aside
+
+  console.log('Hit the recent button');
+
+  var eventId = $('#event-wrapper').data("event-id");
+
+  var settings = {
+    url: '/questions/recent',
+    method: 'get',
+    data: { eventId: eventId }
+  }
+
+  var render = function(response){
+    console.log('Into the RENDER');
+
+    console.log(response);
+    response.forEach(function() {
+  //    $('.question-space').
+      // var $h4 = $('<h4>').html(response.description));
+      // var $questionSpace = $('.question-space').append($h4);
+      // $newDiv.append( $contentDiv );
+      <p style ="background-color:yellow"><%= question.description %> - Asked by
+        <%= @users.find_by(id: question.user_id).name %>
+        <i id="thumbsup" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+        <span id="likecount" style="float:right"> <%= question.question_likes %></span>
+      </p>
+    });
+
+  }
+
+  $.ajax(settings).done(render).fail();
+
+});
+
+</script>
+<!-- <script>
 console.log('questions logic');
 
 $('#sort_by_recent').on('click', function(event) {
   event.preventDefault(); // js: i got this, form submission step aside
   console.log('Hit the recent button');
 
+  var eventId = $('#event-wrapper').data("event-id");
+
   var settings = {
     url: '/questions/recent',
     method: 'get',
-    data: { event_id: params[:id] }
+    data: { eventId: eventId }
   }
+
+  $.ajax(settings).done(happyDays).fail(sadDays);
 
   var happyDays = function(response) {
     console.log('happy days');
@@ -122,4 +173,4 @@ var hurray = function(data) {
   console.log(data.id);
 }
 
-</script>
+</script> -->
