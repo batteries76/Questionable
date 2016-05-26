@@ -46,3 +46,83 @@
   </div>
 
 </div>
+<script>
+console.log('questions logic');
+
+$('#sort_by_recent').on('click', function(event) {
+  event.preventDefault(); // js: i got this, form submission step aside
+  console.log('Hit the recent button');
+
+  var settings = {
+    url: '/questions/recent',
+    method: 'get',
+    data: { event_id: params[:id] }
+  }
+
+  var happyDays = function(response) {
+    console.log('happy days');
+
+    var $header = $('<header class="content"><div class="right">14h</div><img class="avatar" src="https://placeholdit.imgix.net/~text?txtsize=19&txt=200%C3%97200&w=200&h=200" alt=""> DT</header>');
+
+    var $imageTag = $('<img>').attr('src', response.image_url);
+    var $starSpan = $('<span>').addClass('star').text('&#9733');
+    var $imageDiv = $('<div>').addClass("image").append($imageTag).append($starSpan);
+
+    var $h2 = $('<h2>').html(response.name);
+    var $h4 = $('<h4>').html("at Ga");
+    var $contentDiv = $('<div>').addClass("content").append($h2).append($h4);
+
+    var $span1 = $('<span>').addClass("right").html('counter');
+    var $span2 = $('<span>').addClass("content").html("bookmarkXXX");
+    var $footer = $('<footer>').addClass("content").append($span1).append($span2);
+
+    var $newDiv = $('<div>')
+      .addClass('ui-card')
+      .attr('data-dish-id', response.id);
+
+    $newDiv.append( $header );
+    $newDiv.append( $imageDiv );
+    $newDiv.append( $contentDiv );
+    $newDiv.append( $footer );
+
+    $('.dish-list').append( $newDiv );
+
+    console.log($newDiv[0]);
+  }
+
+  var sadDays = function() {
+    console.log('life sucks')
+  }
+
+  $.ajax(settings).done(happyDays).fail(sadDays);
+
+});
+
+$('.dish-list').on('click', '.star', function(event) {
+
+  var $uiCard = $(event.target).closest('.ui-card');
+  var dishId = $uiCard.data('dish-id');
+
+  console.log('click!');
+
+  var settings = {
+    url: '/api/likes',
+    data: { dish_id: dishId },
+    method: 'post'
+  }
+
+  var incrementStarCount = function(response) {
+    console.log(response);
+    var countSpan = $(event.target).closest('.ui-card').find('footer .right');
+    countSpan.html( response.like_count );
+  }
+
+  $.ajax(settings).done(incrementStarCount).fail();
+});
+
+var hurray = function(data) {
+  console.log('hurrray');
+  console.log(data.id);
+}
+
+</script>
