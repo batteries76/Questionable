@@ -1,6 +1,7 @@
 <%# EVENT QUESTIONS PAGE %>
-<div id="event-wrapper" data-event-id="<%= @event.id %>"></div>
-<h2 style="margin-top:1.5rem"><%= "#{@event.title} - #{@event.speaker} - 10:30" %> </h2>
+
+<h2 style="margin-top:1.5rem"><%= "#{@event.title} - #{@event.speaker} - #{@event.time}" %> </h2>
+
 <div style="margin-top:1.5rem"><%= @event.description %></div>
 
 <button class="btn-sml" id="sort_by_random">Randomize</button>
@@ -9,13 +10,13 @@
 <button class="btn-sml" id="sort_by_most_liked">Most Liked</button>
 <BR /><BR />
 
-<div class="question-space">
-</div>
+<div id="event-wrapper" data-event-id="<%= @event.id %>"></div>
+<div id="question-space"></div>
 
-<% if @questions %>
+<!-- <% if @questions %>
   <% @questions.each do |question| %>
       <% if question.event.to_i == @event.id %>
-        <p style ="background-color:yellow"><%= question.description %> - Asked by
+        <p style ="background-color:rgba(125, 25, 53, 0.15)"><%= question.description %> - Asked by
           <%= @users.find_by(id: question.user_id).name %>
           <i id="thumbsup" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
           <span id="likecount" style="float:right"> <%= question.question_likes %></span>
@@ -24,7 +25,7 @@
   <% end %>
 <% else %>
   <h3>No-one has asked a question yet! Be the first to ask one below!</h3>
-<% end %>
+<% end %> -->
 
 <button id="myBtn" class="button">Ask a question</button>
 
@@ -68,19 +69,22 @@ $('#sort_by_recent').on('click', function(event) {
   }
 
   var render = function(response){
-    console.log('Into the RENDER');
 
+    console.log('Into the RENDER');
     console.log(response);
-    response.forEach(function() {
-  //    $('.question-space').
-      // var $h4 = $('<h4>').html(response.description));
-      // var $questionSpace = $('.question-space').append($h4);
-      // $newDiv.append( $contentDiv );
-      <p style ="background-color:yellow"><%= question.description %> - Asked by
-        <%= @users.find_by(id: question.user_id).name %>
-        <i id="thumbsup" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-        <span id="likecount" style="float:right"> <%= question.question_likes %></span>
-      </p>
+
+    response.forEach(function(data) {
+
+      console.log(data);
+      var data1 = data;
+      
+      var $questionSpace = $('question-space');
+      var $pStyle1 = $('<p>').html(data.description);
+      var $pIThing = $('<i>').addClass("fa fa-thumbs-o-up").attr('id', data.event);
+      var $spanThing = $('<span>').html(data.question_likes);
+
+      $('#question-space').append($pStyle1).append($pIThing).append($spanThing);
+
     });
 
   }

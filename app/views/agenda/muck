@@ -1,0 +1,9 @@
+//  $('.question-space').
+//   var $h4 = $('<h4>').html(response.description));
+//   var $questionSpace = $('.question-space').append($h4);
+//   $newDiv.append( $contentDiv );
+//   <p style ="background-color:yellow"><%=# question.description %> - Asked by
+//     <%= @users.find_by(id: question.user_id).name %>
+//     <i id="thumbsup" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+//     <span id="likecount" style="float:right"> <%= question.question_likes %></span>
+//   </p>
