@@ -11,6 +11,7 @@
 <BR /><BR />
 
 <div id="event-wrapper" data-event-id="<%= @event.id %>"></div>
+
 <div id="question-space"></div>
 
 <!-- <% if @questions %>
@@ -75,9 +76,8 @@ $('#sort_by_recent').on('click', function(event) {
 
     response.forEach(function(data) {
 
-      console.log(data);
-      var data1 = data;
-      
+//      console.log(data);
+
       var $questionSpace = $('question-space');
       var $pStyle1 = $('<p>').html(data.description);
       var $pIThing = $('<i>').addClass("fa fa-thumbs-o-up").attr('id', data.event);
